@@ -1,3 +1,4 @@
+import { useState } from "react";
 import NewTask from "./NewTask";
 import Task from "./Task";
 
@@ -13,8 +14,20 @@ const TaskItem = () => {
     }
   ];
 
+  const [tasks, setTasks] = useState(initialDummyTasks);
+
+  const saveTaskDataHandler = (enteredTaskData) => {
+    const taskData = {
+      ...enteredTaskData,
+    };
+
+    setTasks(prevTasks => {
+      return [taskData, ...prevTasks];
+    });
+  };
+
   let printTasks = (
-    initialDummyTasks.map((task) =>
+    tasks.map((task) =>
       <Task
         key={task.id}
         name={task.name}
@@ -24,7 +37,7 @@ const TaskItem = () => {
   return (
     <div>
       <div>
-        <NewTask />
+        <NewTask onSaveTaskData={saveTaskDataHandler} />
       </div>
       {printTasks}
     </div>

@@ -25,7 +25,7 @@ const NewTask = (props) => {
   return (
     <div>
       <form onSubmit={submitHandler}>
-        <input type="text" placeholder="Task Name" onChange={nameHandler} />
+        <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
         <button type="submit">Add Task</button>
       </form>
     </div>

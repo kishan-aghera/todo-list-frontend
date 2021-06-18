@@ -1,6 +1,5 @@
 import { useState } from "react";
-
-let counterForID = 3;
+import axios from "axios";
 
 const NewTask = (props) => {
   const [enteredName, setEnteredName] = useState('');
@@ -9,22 +8,23 @@ const NewTask = (props) => {
     setEnteredName(event.target.value);
   };
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-
+  const addNewTaskHandler = (event) => {
     setEnteredName('');
 
     const taskData = {
-      id: counterForID++,
-      name: enteredName,
+      name: enteredName
     }
 
-    props.onSaveTaskData(taskData);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:3001/v1/tasks',
+      data: taskData
+    })
   };
 
   return (
     <div>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={addNewTaskHandler}>
         <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
         <button type="submit">Add Task</button>
       </form>

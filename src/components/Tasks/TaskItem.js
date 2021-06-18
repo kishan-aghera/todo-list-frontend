@@ -1,30 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import NewTask from "./NewTask";
 import Task from "./Task";
 
 const TaskItem = () => {
-  const initialDummyTasks = [
-    {
-      id: 1,
-      name: "first task"
-    },
-    {
-      id: 2,
-      name: 'second task'
-    }
-  ];
+  const [tasks, setTasks] = useState([]);
 
-  const [tasks, setTasks] = useState(initialDummyTasks);
-
-  const saveTaskDataHandler = (enteredTaskData) => {
-    const taskData = {
-      ...enteredTaskData,
-    };
-
-    setTasks(prevTasks => {
-      return [taskData, ...prevTasks];
-    });
-  };
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3001/v1/tasks'
+    })
+      .then(({ data }) => {
+        const transformedData = data.data.map((taskData) => {
+          return {
+            id: taskData.id,
+            name: taskData.name,
+          }
+        })
+        setTasks(transformedData);
+      })
+  }, []);
 
   let printTasks = (
     tasks.map((task) =>
@@ -37,7 +34,7 @@ const TaskItem = () => {
   return (
     <div>
       <div>
-        <NewTask onSaveTaskData={saveTaskDataHandler} />
+        <NewTask />
       </div>
       {printTasks}
     </div>

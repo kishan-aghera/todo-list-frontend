@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
@@ -8,87 +8,58 @@ const TaskItem = () => {
   const [edit, setEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const [existingName, setExistingName] = useState('');
-  // const [task, setTask] = useState({ name: '' });
-  // const [enteredName, setEnteredName] = useState('');
-  // const [taskInfo, setTaskInfo] = useState({name: ''});
-
-  // const nameHandler = (event) => {
-  //   setEnteredName(event.target.value);
-  // };
-
-  // const addNewTaskHandler = (event) => {
-  //   setEnteredName('');
-
-  //   const taskData = {
-  //     name: enteredName
-  //   }
-
-  //   axios({
-  //     method: 'POST',
-  //     url: 'http://localhost:3001/v1/tasks',
-  //     data: taskData
-  //   })
-  // };
+  const [noRecord, setNoRecord] = useState(false);
 
   useEffect(() => {
-    axios({
-      method: 'GET',
-      url: 'http://localhost:3001/v1/tasks'
-    })
-      .then(({ data }) => {
-        const transformedData = data.data.map((taskData) => {
+    axios.get('http://localhost:3001/v1/tasks').then(res => {
+      if (!res.data.data) {
+        setNoRecord(true);
+      }
+      else {
+        const transformedData = res.data.data.map((taskData) => {
           return {
             id: taskData.id,
             name: taskData.name,
           }
         })
         setTasks(transformedData);
-      }).catch(err => {
-      });
+      }
+    })
   }, []);
 
   const deleteHandler = (id, i) => {
-    axios({
-      method: 'DELETE',
-      url: `http://localhost:3001/v1/tasks/${id}`
-    })
+    axios.delete(`http://localhost:3001/v1/tasks/${id}`)
       .then(() => {
         setTasks((prev) => {
-          const newList = [...prev]
-          newList.splice(i, 1);
-          return newList;
+          if (prev.length !== 0) {
+            const newList = [...prev]
+            newList.splice(i, 1);
+            if (newList.length === 0) {
+              setNoRecord(true);
+              return [];
+            }
+            else {
+              return newList;
+            }
+          }
+          else {
+            setNoRecord(true);
+            return [];
+          }
         });
       })
   }
 
   const updateHandler = (id, name) => {
-    // console.log("Update method called");
     setEdit(true);
     setIndex(+id);
-    // console.log(index);
     setExistingName(name);
-    console.log(existingName);
-    <TaskForm id={index} existingName={existingName} isEdit={edit} />
-    // console.log("Taskform called");
-    // axios({
-    //   method: 'PUT',
-    //   url: `http://localhost:3001/v1/tasks/${id}`,
-    //   data: taskInfo
-    // })
-    // .then(({data}) => {
-    //   setTaskInfo((prev) => {
-    //     const newList = [...prev];
-    //     newList[i] = data;
-    //     return newList;
-    //   })
-    // })
   }
 
   let printTasks = (
     tasks.map((task, i) =>
       <div key={task.id}>
         {task.name}
-        {/* {console.log(task.name)} */}
         <button onClick={() => updateHandler(task.id, task.name)}>Update</button>
         <button onClick={() => deleteHandler(task.id, i)}>Delete</button>
       </div>
@@ -96,13 +67,15 @@ const TaskItem = () => {
   );
 
   return (
-    <div>
+    <Fragment>
       <div>
-        <TaskForm isEdit={edit} />
+        <TaskForm id={index} existingName={existingName} isEdit={edit} />
       </div>
+
       <br />
-      {printTasks}
-    </div>
+
+      {noRecord ? <p>No Tasks found!</p> : printTasks}
+    </Fragment>
   );
 };
 

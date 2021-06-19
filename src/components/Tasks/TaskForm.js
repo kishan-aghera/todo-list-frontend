@@ -1,64 +1,45 @@
-import { useState } from "react";
+import { useState, Fragment, useEffect } from "react";
 import axios from "axios";
 
 const TaskForm = (props) => {
   const [enteredName, setEnteredName] = useState('');
-
+  
+  useEffect(() => {
+    setEnteredName(props.existingName)
+  }, [props.existingName])
+  
   const nameHandler = (event) => {
     setEnteredName(event.target.value);
   };
 
-  const addNewTaskHandler = (event) => {
+  const addNewTaskHandler = () => {
     setEnteredName('');
 
     const taskData = {
       name: enteredName
     }
 
-    axios({
-      method: 'POST',
-      url: 'http://localhost:3001/v1/tasks',
-      data: taskData
-    })
+    axios.post('http://localhost:3001/v1/tasks', taskData)
   };
 
-  const updateTaskHandler = (event) => {
-    // console.log(props.id);
+  const updateTaskHandler = () => {
     setEnteredName('');
 
     const updatedTaskData = {
       name: enteredName
     }
-    axios({
-      method: 'PUT',
-      url: `http://localhost:3001/v1/tasks/${props.id}`,
-      data: updatedTaskData
-    })
+
+    axios.put(`http://localhost:3001/v1/tasks/${props.id}`, updatedTaskData);
   };
 
-  const printAddForm = !props.isEdit && (
-    <div>
-      <form onSubmit={addNewTaskHandler}>
-        <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
-        <button type="submit">Add Task</button>
-      </form>
-    </div>
-  );
-
-  const printUpdateForm = props.isEdit && (
-    <div>
-      <form onSubmit={updateTaskHandler}>
-        <input type="text" value={props.existingName} placeholder="Task Name" onChange={nameHandler} />
-        <button type="submit">Update Task</button>
-      </form>
-    </div>
-  );
 
   return (
-    <div>
-      {printAddForm}
-      {printUpdateForm}
-    </div>
+    <Fragment>
+      <form onSubmit={props.isEdit ? updateTaskHandler : addNewTaskHandler}>
+        <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
+        <button type="submit">{props.isEdit ? "Update Task" : "Add Task"}</button>
+      </form>
+    </Fragment>
   );
 };
 

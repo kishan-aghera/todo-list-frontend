@@ -5,28 +5,39 @@ import TaskForm from "./TaskForm";
 
 const TaskItem = () => {
   const [tasks, setTasks] = useState([]);
+
+  
+  // For updating a task
   const [edit, setEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const [existingName, setExistingName] = useState('');
+
+  
+  // For error handling
   const [noRecord, setNoRecord] = useState(false);
 
+  
+  // Fetching Tasks from Backend
   useEffect(() => {
-    axios.get('http://localhost:3001/v1/tasks').then(res => {
-      if (!res.data.data) {
-        setNoRecord(true);
-      }
-      else {
-        const transformedData = res.data.data.map((taskData) => {
-          return {
-            id: taskData.id,
-            name: taskData.name,
-          }
-        })
-        setTasks(transformedData);
-      }
-    })
+    axios.get('http://localhost:3001/v1/tasks')
+      .then(res => {
+        // If no tasks found
+        if (!res.data.data) {
+          setNoRecord(true);
+        }
+        else {
+          const transformedData = res.data.data.map((taskData) => {
+            return {
+              id: taskData.id,
+              name: taskData.name,
+            }
+          })
+          setTasks(transformedData);
+        }
+      })
   }, []);
 
+  
   const deleteHandler = (id, i) => {
     axios.delete(`http://localhost:3001/v1/tasks/${id}`)
       .then(() => {
@@ -50,12 +61,14 @@ const TaskItem = () => {
       })
   }
 
+  
   const updateHandler = (id, name) => {
     setEdit(true);
     setIndex(+id);
     setExistingName(name);
   }
 
+  
   let printTasks = (
     tasks.map((task, i) =>
       <div key={task.id}>
@@ -73,7 +86,7 @@ const TaskItem = () => {
       </div>
 
       <br />
-
+      
       {noRecord ? <p>No Tasks found!</p> : printTasks}
     </Fragment>
   );

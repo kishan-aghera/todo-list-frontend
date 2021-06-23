@@ -21,7 +21,7 @@ const TaskItem = (props) => {
   useEffect(() => {
     axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
       .then(res => {
-        console.log("Data from GET: ", res);
+        // console.log("Data from GET: ", res);
 
         // If no tasks found
         if (!res.data) {
@@ -29,7 +29,7 @@ const TaskItem = (props) => {
         }
         else {
           const data = Array.from(res.data);
-          console.log("Json parse: ", data);
+          // console.log("Json parse: ", data);
           const transformedData = data.map((taskData) => {
             return {
               id: taskData.id,
@@ -37,7 +37,7 @@ const TaskItem = (props) => {
               user_id: taskData.user_id
             }
           })
-          console.log("transformedData: ", transformedData);
+          // console.log("transformedData: ", transformedData);
           setTasks(transformedData);
         }
       })
@@ -100,13 +100,18 @@ const TaskItem = (props) => {
 
   return (
     <Fragment>
-      <Fragment>User Status: {props.loggedInStatus} <br /> <br /></Fragment>
-      <Fragment>props.user_id: {props.user_id}</Fragment>
+      {/* <Fragment>User Status: {props.loggedInStatus} <br /> <br /></Fragment>
+      <Fragment>props.user_id: {props.user_id}</Fragment> */}
       <div>
-        <button onClick={() => handleLogoutClick()}>Logout</button>
+        {props.isLoggedIn && props.user_id &&
+          <button onClick={() => handleLogoutClick()}>Logout</button>
+        }
       </div>
       <div>
-        <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} />
+        {/* {props.loggedInStatus === "NOT_LOGGED_IN" ?
+          // (<p>Please Login to use this feature</p> && props.history.push("/")) :
+          <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} />} */}
+        <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} isLoggedIn={props.isLoggedIn} />
       </div>
 
       <br />

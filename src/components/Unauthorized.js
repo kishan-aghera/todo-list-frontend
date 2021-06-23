@@ -5,20 +5,10 @@ export default class Unauthorized extends Component {
     super(props);
   }
 
-  printMessage() {
-    <div>Please Login</div>  
-  }
-
-  redirectToHome() {
-    setTimeout(() => {
-      this.props.history.push("/")
-    }, 2000);
-  }
-  
   render() {
     return (
       <Fragment>
-        {this.printMessage && this.redirectToHome}
+        {this.props.history.push("/")}
       </Fragment>
     )
   }

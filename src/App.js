@@ -6,7 +6,7 @@ import "./App.css";
 import Home from "./components/Home";
 // import Dashboard from "./components/Dashboard";
 import TaskItem from './components/Tasks/TaskItem'
-import Unauthorized from "./components/Unauthorized";
+// import Unauthorized from "./components/Unauthorized";
 
 export default class App extends Component {
   constructor() {
@@ -14,7 +14,8 @@ export default class App extends Component {
 
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
+      user: {},
+      isLoggedIn: false
     };
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -32,7 +33,8 @@ export default class App extends Component {
         ) {
           this.setState({
             loggedInStatus: "LOGGED_IN",
-            user: response.data.user
+            user: response.data.user,
+            isLoggedIn: true
           });
         } else if (
           !response.data.logged_in &
@@ -40,7 +42,8 @@ export default class App extends Component {
         ) {
           this.setState({
             loggedInStatus: "NOT_LOGGED_IN",
-            user: {}
+            user: {},
+            isLoggedIn: false
           });
         }
       })
@@ -56,7 +59,8 @@ export default class App extends Component {
   handleLogin(data) {
     this.setState({
       loggedInStatus: "LOGGED_IN",
-      user: data.user
+      user: data.user,
+      isLoggedIn: true
     });
   }
 
@@ -64,7 +68,8 @@ export default class App extends Component {
   handleLogout() {
     this.setState({
       loggedInStatus: "NOT_LOGGED_IN",
-      user: {}
+      user: {},
+      isLoggedIn: false
     });
   }
 
@@ -86,31 +91,29 @@ export default class App extends Component {
                 />
               )}
             />
-            {
-              this.state.user === {} ?
-                (<Route
-                  exact
-                  path={"/dashboard"}
-                  render={props => (
-                    <TaskItem
-                      {...props}
-                      loggedInStatus={this.state.loggedInStatus}
-                      handleLogout={this.handleLogout}
-                      user_id={this.state.user.id}
-                    />
-                  )}
-                />) : (
-                  <Route
-                    exact
-                    path={"/dashboard"}
-                    render={props => (
-                      <Unauthorized
-                        {...props}
-                      />
-                    )}
-                  />
-                )
-            }
+            <Route
+              exact
+              path={"/dashboard"}
+              render={props => (
+                <TaskItem
+                  {...props}
+                  loggedInStatus={this.state.loggedInStatus}
+                  handleLogout={this.handleLogout}
+                  user_id={this.state.user.id}
+                  isLoggedIn={this.state.isLoggedIn}
+                />
+              )}
+            />
+            {/* <Route
+              exact
+              path={"/dashboard"}
+              render={props => (
+                <Unauthorized
+                  {...props}
+                />
+              )}
+            /> */}
+
           </Switch>
         </BrowserRouter>
       </div>

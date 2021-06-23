@@ -16,12 +16,12 @@ const TaskForm = (props) => {
       name: enteredName
     }
     
-    axios.post('http://localhost:3001/v1/tasks', taskData)
+    axios.post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
   };
   
   
   useEffect(() => {
-    setEnteredName(props.existingName)
+    setEnteredName(props.existingName);
   }, [props.existingName])
   
   const updateTaskHandler = () => {
@@ -31,7 +31,7 @@ const TaskForm = (props) => {
       name: enteredName
     }
 
-    axios.put(`http://localhost:3001/v1/tasks/${props.id}`, updatedTaskData);
+    axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${props.id}`, updatedTaskData);
   };
 
   

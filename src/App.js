@@ -4,7 +4,7 @@ import axios from "axios";
 
 import "./App.css";
 import Home from "./components/Home";
-// import Dashboard from "./components/Dashboard";
+import NavBar from "./components/NavBar";
 import TaskItem from './components/Tasks/TaskItem'
 // import Unauthorized from "./components/Unauthorized";
 
@@ -77,6 +77,8 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
+        <NavBar isLoggedIn={this.state.isLoggedIn} />
+        <br />
         <BrowserRouter>
           <Switch>
             <Route
@@ -113,7 +115,6 @@ export default class App extends Component {
                 />
               )}
             /> */}
-
           </Switch>
         </BrowserRouter>
       </div>

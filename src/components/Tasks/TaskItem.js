@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
+import { Button, Col, Row, Container, Card, Alert, CardText } from "reactstrap";
 
 const TaskItem = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -21,15 +22,13 @@ const TaskItem = (props) => {
   useEffect(() => {
     axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
       .then(res => {
-        // console.log("Data from GET: ", res);
-
         // If no tasks found
         if (!res.data) {
           setNoRecord(true);
+          // setTasks([]);
         }
         else {
           const data = Array.from(res.data);
-          // console.log("Json parse: ", data);
           const transformedData = data.map((taskData) => {
             return {
               id: taskData.id,
@@ -37,7 +36,6 @@ const TaskItem = (props) => {
               user_id: taskData.user_id
             }
           })
-          // console.log("transformedData: ", transformedData);
           setTasks(transformedData);
         }
       })
@@ -65,7 +63,6 @@ const TaskItem = (props) => {
           }
         });
       })
-    console.log("Task Deleted");
   }
 
 
@@ -75,16 +72,6 @@ const TaskItem = (props) => {
     setExistingName(name);
   }
 
-
-  let printTasks = (
-    tasks.map((task, i) =>
-      <div key={task.id}>
-        {task.name}
-        <button onClick={() => updateHandler(task.id, task.name, props.user_id)}>Update</button>
-        <button onClick={() => deleteHandler(task.id, i)}>Delete</button>
-      </div>
-    )
-  );
 
   const handleLogoutClick = () => {
     axios
@@ -98,25 +85,49 @@ const TaskItem = (props) => {
       });
   };
 
+
+  let printTasks = (tasks.length !== 0 ?
+    tasks.map((task, i) =>
+      <div key={task.id}>
+        <Container>
+          <Card>
+            <Row>
+              <Col xs="6">
+                <CardText tag="h5" style={{padding: "7px", margin: "7px 0"}}>
+                  {task.name}
+                </CardText>
+              </Col>
+              <Col>
+                <Button color="secondary" style={{padding: "7px", margin: "7px 0"}} onClick={() => updateHandler(task.id, task.name, props.user_id)}>Update</Button>
+              </Col>
+              <Col>
+                <Button color="danger" style={{padding: "7px", margin: "7px 0"}} onClick={() => deleteHandler(task.id, i)}>Delete</Button>
+              </Col>
+            </Row>
+          </Card>
+        </Container>
+      </div>
+    ) : (noRecord &&
+      <Alert color="warning">No Tasks found!</Alert>
+    )
+  );
+
   return (
     <Fragment>
-      {/* <Fragment>User Status: {props.loggedInStatus} <br /> <br /></Fragment>
-      <Fragment>props.user_id: {props.user_id}</Fragment> */}
-      <div>
-        {props.isLoggedIn && props.user_id &&
-          <button onClick={() => handleLogoutClick()}>Logout</button>
-        }
-      </div>
-      <div>
-        {/* {props.loggedInStatus === "NOT_LOGGED_IN" ?
-          // (<p>Please Login to use this feature</p> && props.history.push("/")) :
-          <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} />} */}
-        <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} isLoggedIn={props.isLoggedIn} />
-      </div>
+      <Container>
+        <div>
+          {props.isLoggedIn && props.user_id &&
+            <Button color="danger" onClick={() => handleLogoutClick()}>Logout</Button>
+          }
+        </div>
+        <div>
+          <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} isLoggedIn={props.isLoggedIn} />
+        </div>
 
-      <br />
+        <br />
 
-      {noRecord ? <p>No Tasks found!</p> : printTasks}
+        {printTasks}
+      </Container>
     </Fragment>
   );
 };

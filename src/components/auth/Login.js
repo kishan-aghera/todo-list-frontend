@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Button, Form, FormGroup, Input } from "reactstrap";
 
 export default class Login extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class Login extends Component {
         { withCredentials: true }
       )
       .then(response => {
-        console.log(response);
+        // console.log(response);
         if (response.data.logged_in) {
           this.props.handleSuccessfulAuth(response.data);
         }
@@ -50,27 +51,31 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={this.handleChange}
-            required
-          />
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup>
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              required
+            />
+          </FormGroup>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={this.state.password}
-            onChange={this.handleChange}
-            required
-          />
+          <FormGroup>
+            <Input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              required
+            />
+          </FormGroup>
 
-          <button type="submit">Login</button>
-        </form>
+          <Button type="submit">Login</Button>
+        </Form>
       </div>
     );
   }

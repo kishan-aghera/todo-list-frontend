@@ -1,6 +1,7 @@
 import { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Alert, Button } from "reactstrap";
 
 const TaskForm = (props) => {
   const [enteredName, setEnteredName] = useState('');
@@ -37,20 +38,26 @@ const TaskForm = (props) => {
 
   const printMessage = (
     <Fragment>
-      <p>Please Login and then you can use this feature. <br/>You can get Login or Register by visiting the following link.</p>
-      <Link to="/">Home</Link>
+      <Alert color="danger">
+        Please Login and then you can use this feature.
+        <br />
+        You can get Login or Register by visiting the following link.
+        <br />
+        <Link to="/">Home</Link>
+      </Alert>
     </Fragment>
-    
-    );
+
+  );
 
   return (
     <Fragment>
       {
         (props.isLoggedIn && props.user_id)
-          ? <Fragment>
+          ?
+          <Fragment>
             <form onSubmit={props.isEdit ? updateTaskHandler : addNewTaskHandler}>
               <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
-              <button type="submit">{props.isEdit ? "Update Task" : "Add Task"}</button>
+              <Button color="info" type="submit">{props.isEdit ? "Update Task" : "Add Task"}</Button>
             </form>
           </Fragment>
           : printMessage

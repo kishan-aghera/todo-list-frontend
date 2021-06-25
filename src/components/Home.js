@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import axios from "axios";
+import { Button, Card, CardTitle, Row, Col, Container } from 'reactstrap';
 
 import Registration from "./auth/Registration";
 import Login from "./auth/Login";
@@ -31,18 +32,29 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
         {/* <h1>Status: {this.props.loggedInStatus}</h1> */}
         {
           (this.props.loggedInStatus === "LOGGED_IN") ?
             (
-              <button onClick={() => this.handleLogoutClick()}>Logout</button>
+              <Button color="danger" onClick={() => this.handleLogoutClick()}>Logout</Button>
             ) :
             (
-              <Fragment>
-                <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
-              </Fragment>
+              <Container>
+                <Row xs="5">
+                  <Col sm="6">
+                    <Card>
+                      <CardTitle tag="h5">Registration</CardTitle>
+                      <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                    </Card>
+                  </Col>
+                  <Col sm="6">
+                    <Card>
+                      <CardTitle tag="h5">Login</CardTitle>
+                      <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
+                    </Card>
+                  </Col>
+                </Row>
+              </Container>
             )
         }
       </div>

@@ -44,7 +44,7 @@ export default class Registration extends Component {
         }
       })
       .catch(error => {
-        console.log("registration error", error);
+        console.log("Registration Error: ", error);
       });
     event.preventDefault();
   }

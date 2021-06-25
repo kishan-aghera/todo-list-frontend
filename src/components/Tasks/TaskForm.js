@@ -16,9 +16,9 @@ const TaskForm = (props) => {
 
     const taskData = {
       name: enteredName
-    }
+    };
 
-    axios.post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
+    axios.post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData);
   };
 
 

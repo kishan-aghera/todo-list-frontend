@@ -15,7 +15,7 @@ const TaskItem = (props) => {
 
 
   // For error handling
-  const [noRecord, setNoRecord] = useState(false);
+  const [noRecord, setNoRecord] = useState(true);
 
 
   // Fetching Tasks from Backend
@@ -25,9 +25,9 @@ const TaskItem = (props) => {
         // If no tasks found
         if (!res.data) {
           setNoRecord(true);
-          // setTasks([]);
         }
         else {
+          setNoRecord(false);
           const data = Array.from(res.data);
           const transformedData = data.map((taskData) => {
             return {
@@ -47,6 +47,7 @@ const TaskItem = (props) => {
       .then(() => {
         setTasks((prev) => {
           if (prev.length !== 0) {
+            setNoRecord(false);
             const newList = [...prev]
             newList.splice(i, 1);
             if (newList.length === 0) {
@@ -54,6 +55,7 @@ const TaskItem = (props) => {
               return [];
             }
             else {
+              setNoRecord(false);
               return newList;
             }
           }
@@ -93,22 +95,37 @@ const TaskItem = (props) => {
           <Card>
             <Row>
               <Col xs="6">
-                <CardText tag="h5" style={{padding: "7px", margin: "7px 0"}}>
+                <CardText
+                  tag="h5"
+                  style={{ padding: "7px", margin: "7px 0" }}
+                >
                   {task.name}
                 </CardText>
               </Col>
               <Col>
-                <Button color="secondary" style={{padding: "7px", margin: "7px 0"}} onClick={() => updateHandler(task.id, task.name, props.user_id)}>Update</Button>
+                <Button
+                  color="secondary"
+                  style={{ padding: "7px", margin: "7px 0" }}
+                  onClick={() => updateHandler(task.id, task.name, props.user_id)}
+                >
+                  Update
+                </Button>
               </Col>
               <Col>
-                <Button color="danger" style={{padding: "7px", margin: "7px 0"}} onClick={() => deleteHandler(task.id, i)}>Delete</Button>
+                <Button
+                  color="danger"
+                  style={{ padding: "7px", margin: "7px 0" }}
+                  onClick={() => deleteHandler(task.id, i)}
+                >
+                  Delete
+                </Button>
               </Col>
             </Row>
           </Card>
         </Container>
       </div>
     ) : (noRecord &&
-      <Alert color="warning">No Tasks found!</Alert>
+      <Alert color="danger">No Tasks found!</Alert>
     )
   );
 
@@ -117,11 +134,22 @@ const TaskItem = (props) => {
       <Container>
         <div>
           {props.isLoggedIn && props.user_id &&
-            <Button color="danger" onClick={() => handleLogoutClick()}>Logout</Button>
+            <Button
+              color="danger"
+              onClick={() => handleLogoutClick()}
+            >
+              Logout
+            </Button>
           }
         </div>
         <div>
-          <TaskForm id={index} existingName={existingName} isEdit={edit} user_id={props.user_id} isLoggedIn={props.isLoggedIn} />
+          <TaskForm
+            id={index}
+            existingName={existingName}
+            isEdit={edit}
+            user_id={props.user_id}
+            isLoggedIn={props.isLoggedIn}
+          />
         </div>
 
         <br />

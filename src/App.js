@@ -106,15 +106,6 @@ export default class App extends Component {
                 />
               )}
             />
-            {/* <Route
-              exact
-              path={"/dashboard"}
-              render={props => (
-                <Unauthorized
-                  {...props}
-                />
-              )}
-            /> */}
           </Switch>
         </BrowserRouter>
       </div>

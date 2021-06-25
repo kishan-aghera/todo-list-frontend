@@ -37,13 +37,12 @@ export default class Login extends Component {
         { withCredentials: true }
       )
       .then(response => {
-        // console.log(response);
         if (response.data.logged_in) {
           this.props.handleSuccessfulAuth(response.data);
         }
       })
       .catch(error => {
-        console.log("login error", error);
+        console.log("Login Error: ", error);
       });
     event.preventDefault();
   }

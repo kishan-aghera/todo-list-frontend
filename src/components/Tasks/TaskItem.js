@@ -2,7 +2,8 @@ import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
-import { Button, Col, Row, Container, Card, Alert, CardText } from "reactstrap";
+import Task from "./Task";
+import { Button, Container, Alert } from "reactstrap";
 
 const TaskItem = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -40,6 +41,38 @@ const TaskItem = (props) => {
         }
       })
   }, [props.user_id]);
+
+  const addNewTaskHandler = (name) => {
+    const taskData = {
+      name: name
+    };
+
+    axios.post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
+      .then(response => {
+        const lists = [...tasks, response.data];
+        setTasks(lists);
+      })
+      .catch(error => {
+        console.log("Adding new Task error: ", error);
+      })
+  };
+
+  const updateTaskHandler = (name) => {
+    const updatedTaskData = {
+      name: name
+    };
+
+    axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
+      .then(response => {
+        const lists = tasks;
+        lists[index - 1] = { name };
+        setTasks(lists);
+        console.log(lists);
+      })
+      .catch((error) => {
+        console.log("Updating Error: ", error)
+      });
+  }
 
 
   const deleteHandler = (id, i) => {
@@ -91,38 +124,14 @@ const TaskItem = (props) => {
   let printTasks = (tasks.length !== 0 ?
     tasks.map((task, i) =>
       <div key={task.id}>
-        <Container>
-          <Card>
-            <Row>
-              <Col xs="6">
-                <CardText
-                  tag="h5"
-                  style={{ padding: "7px", margin: "7px 0" }}
-                >
-                  {task.name}
-                </CardText>
-              </Col>
-              <Col>
-                <Button
-                  color="secondary"
-                  style={{ padding: "7px", margin: "7px 0" }}
-                  onClick={() => updateHandler(task.id, task.name, props.user_id)}
-                >
-                  Update
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  color="danger"
-                  style={{ padding: "7px", margin: "7px 0" }}
-                  onClick={() => deleteHandler(task.id, i)}
-                >
-                  Delete
-                </Button>
-              </Col>
-            </Row>
-          </Card>
-        </Container>
+        <Task
+          i={i}
+          id={task.id}
+          name={task.name}
+          updateHandler={updateHandler}
+          deleteHandler={deleteHandler}
+          user_id={props.user_id}
+        />
       </div>
     ) : (noRecord &&
       <Alert color="danger">No Tasks found!</Alert>
@@ -149,6 +158,9 @@ const TaskItem = (props) => {
             isEdit={edit}
             user_id={props.user_id}
             isLoggedIn={props.isLoggedIn}
+            tasks={tasks}
+            addNewTaskHandler={addNewTaskHandler}
+            updateTaskHandler={updateTaskHandler}
           />
         </div>
 

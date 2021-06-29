@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
-// import Unauthorized from "../Unauthorized";
+import Unauthorized from "../Unauthorized";
 import Task from './Task';
 import { Button, Container, Alert, Card, Row, Col, CardText } from "reactstrap";
 
@@ -188,7 +188,7 @@ const TaskItem = (props) => {
 
   return (
     <Fragment>
-      {/* {props.isLoggedIn ? ( */}
+      {props.isLoggedIn ? (
         <Container>
           <div>
             {props.isLoggedIn && props.user_id &&
@@ -217,7 +217,7 @@ const TaskItem = (props) => {
 
           {printTasks}
         </Container>
-       {/* ) : <Unauthorized />} */}
+       ) : <Unauthorized />}
     </Fragment>
   );
 };

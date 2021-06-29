@@ -28,7 +28,7 @@ const TaskItem = (props) => {
     axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
       .then(res => {
         // If no tasks found
-        if (res.data.status === 404) {
+        if (res.data.status === 404 && props.isLoggedIn) {
           setNoRecord(true);
           printNoTaskMessage();
         }
@@ -45,7 +45,7 @@ const TaskItem = (props) => {
           setTasks(transformedData);
         }
       })
-  }, []);
+  });
 
   const addNewTaskHandler = (name) => {
     const taskData = {

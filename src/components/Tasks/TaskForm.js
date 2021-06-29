@@ -2,6 +2,7 @@ import { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import axios from "axios";
 import { Alert, Button } from "reactstrap";
+// import Unauthorized from "../Unauthorized";
 
 const TaskForm = (props) => {
   const [enteredName, setEnteredName] = useState('');
@@ -17,7 +18,7 @@ const TaskForm = (props) => {
   }
 
   const updateHandler = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
     props.updateTaskHandler(enteredName, props.id);
     setEnteredName('');
   }

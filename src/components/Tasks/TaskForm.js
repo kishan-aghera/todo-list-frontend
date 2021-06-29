@@ -18,7 +18,7 @@ const TaskForm = (props) => {
 
   const updateHandler = (event) => {
     // event.preventDefault();
-    props.updateTaskHandler(enteredName);
+    props.updateTaskHandler(enteredName, props.id);
     setEnteredName('');
   }
 
@@ -27,16 +27,6 @@ const TaskForm = (props) => {
     setEnteredName(props.existingName);
   }, [props.existingName])
 
-  // const updateTaskHandler = (event) => {
-  //   event.preventDefault();
-  //   setEnteredName('');
-
-  //   const updatedTaskData = {
-  //     name: enteredName
-  //   }
-
-  //   axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${props.id}`, updatedTaskData);
-  // };
 
   const printMessage = (
     <Fragment>

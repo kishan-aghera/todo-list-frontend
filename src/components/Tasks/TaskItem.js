@@ -2,8 +2,8 @@ import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
-import Task from "./Task";
-import { Button, Container, Alert } from "reactstrap";
+// import Task from './Task';
+import { Button, Container, Alert, Card, Row, Col, CardText } from "reactstrap";
 
 const TaskItem = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -13,19 +13,24 @@ const TaskItem = (props) => {
   const [edit, setEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const [existingName, setExistingName] = useState('');
+  // const [arrIndex, setArrIndex] = useState(0);
 
 
   // For error handling
   const [noRecord, setNoRecord] = useState(true);
 
+  const printNoTaskMessage = () => {
+    return (<Alert color="danger">No Tasks Found!</Alert>);
+  };
 
   // Fetching Tasks from Backend
   useEffect(() => {
     axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
       .then(res => {
         // If no tasks found
-        if (!res.data) {
+        if (res.data.status === 404) {
           setNoRecord(true);
+          printNoTaskMessage();
         }
         else {
           setNoRecord(false);
@@ -40,7 +45,7 @@ const TaskItem = (props) => {
           setTasks(transformedData);
         }
       })
-  }, [props.user_id]);
+  }, []);
 
   const addNewTaskHandler = (name) => {
     const taskData = {
@@ -57,21 +62,31 @@ const TaskItem = (props) => {
       })
   };
 
-  const updateTaskHandler = (name) => {
+  const updateHandler = (id, name, user_id, i) => {
+    setEdit(true);
+    setIndex(+id);
+    setExistingName(name);
+    // setArrIndex(i);
+  }
+
+  const updateTaskHandler = (name, i) => {
     const updatedTaskData = {
       name: name
     };
 
     axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
-      .then(response => {
-        const lists = tasks;
-        lists[index - 1] = { name };
-        setTasks(lists);
-        console.log(lists);
-      })
-      .catch((error) => {
-        console.log("Updating Error: ", error)
-      });
+    //   .then(response => {
+    //     const lists = [...tasks];
+    //     lists[+arrIndex] = { name };
+    //     setTasks(lists);
+    //     // console.log(lists);
+    //     // lists.filter()
+    //   })
+    //   .catch((error) => {
+    //     console.log("Updating Error: ", error)
+    //   });
+    // setEdit(false);
+    // setArrIndex(0);
   }
 
 
@@ -101,13 +116,6 @@ const TaskItem = (props) => {
   }
 
 
-  const updateHandler = (id, name) => {
-    setEdit(true);
-    setIndex(+id);
-    setExistingName(name);
-  }
-
-
   const handleLogoutClick = () => {
     axios
       .delete("http://localhost:3001/logout", { withCredentials: true })
@@ -120,22 +128,57 @@ const TaskItem = (props) => {
       });
   };
 
+  const styles = {
+    padding: "7px",
+    margin: "7px 0"
+  };
 
   let printTasks = (tasks.length !== 0 ?
     tasks.map((task, i) =>
       <div key={task.id}>
-        <Task
-          i={i}
+        {/* <Task
+          key={task.id}
           id={task.id}
+          i={i}
           name={task.name}
           updateHandler={updateHandler}
           deleteHandler={deleteHandler}
           user_id={props.user_id}
-        />
+        /> */}
+        <Container>
+          <Card>
+            <Row>
+              <Col xs="6">
+                <CardText
+                  tag="h5"
+                  style={styles}
+                >
+                  {task.name}
+                </CardText>
+              </Col>
+              <Col>
+                <Button
+                  color="secondary"
+                  style={styles}
+                  onClick={() => updateHandler(task.id, task.name, props.user_id, i)}
+                >
+                  Update
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  color="danger"
+                  style={styles}
+                  onClick={() => deleteHandler(task.id, i)}
+                >
+                  Delete
+                </Button>
+              </Col>
+            </Row>
+          </Card>
+        </Container>
       </div>
-    ) : (noRecord &&
-      <Alert color="danger">No Tasks found!</Alert>
-    )
+    ) : (noRecord ? printNoTaskMessage() : null)
   );
 
   return (

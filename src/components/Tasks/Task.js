@@ -2,6 +2,11 @@ import React from 'react';
 import { Button, Container, Card, Row, Col, CardText } from 'reactstrap';
 
 export default function Task(props) {
+  const styles = {
+    padding: "7px", 
+    margin: "7px 0"
+  };
+
   return (
     <Container>
       <Card>
@@ -9,7 +14,7 @@ export default function Task(props) {
           <Col xs="6">
             <CardText
               tag="h5"
-              style={{ padding: "7px", margin: "7px 0" }}
+              style={styles}
             >
               {props.name}
             </CardText>
@@ -17,8 +22,8 @@ export default function Task(props) {
           <Col>
             <Button
               color="secondary"
-              style={{ padding: "7px", margin: "7px 0" }}
-              onClick={() => props.updateHandler(props.id, props.name, props.user_id)}
+              style={styles}
+              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)}
             >
               Update
             </Button>
@@ -26,7 +31,7 @@ export default function Task(props) {
           <Col>
             <Button
               color="danger"
-              style={{ padding: "7px", margin: "7px 0" }}
+              style={styles}
               onClick={() => props.deleteHandler(props.id, props.i)}
             >
               Delete

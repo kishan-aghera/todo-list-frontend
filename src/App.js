@@ -6,7 +6,6 @@ import "./App.css";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import TaskItem from './components/Tasks/TaskItem'
-// import Unauthorized from "./components/Unauthorized";
 
 export default class App extends Component {
   constructor() {

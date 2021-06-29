@@ -7,9 +7,10 @@ const NavBar = props => {
       <Navbar color="light" light expand="md">
         <NavbarBrand href="/">To-do List</NavbarBrand>
         <Nav className="mr-auto" navbar>
-        <NavItem>
-            <NavLink href="/dashboard">Dashboard</NavLink>
-          </NavItem>
+            {props.isLoggedIn ? (
+            <NavItem>
+              <NavLink href="/dashboard">Dashboard</NavLink>
+            </NavItem>) : null}
           
           <NavItem>
             <NavLink target="_blank" href="https://github.com/kishan-aghera/todo-list-frontend">Frontend React App Github</NavLink>

@@ -2,7 +2,8 @@ import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
 import TaskForm from "./TaskForm";
-// import Task from './Task';
+// import Unauthorized from "../Unauthorized";
+import Task from './Task';
 import { Button, Container, Alert, Card, Row, Col, CardText } from "reactstrap";
 
 const TaskItem = (props) => {
@@ -18,11 +19,12 @@ const TaskItem = (props) => {
 
   // For error handling
   const [noRecord, setNoRecord] = useState(true);
-
+  
   const printNoTaskMessage = () => {
     return (<Alert color="danger">No Tasks Found!</Alert>);
   };
 
+  
   // Fetching Tasks from Backend
   useEffect(() => {
     axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
@@ -45,7 +47,7 @@ const TaskItem = (props) => {
           setTasks(transformedData);
         }
       })
-  });
+  }, [edit]);
 
   const addNewTaskHandler = (name) => {
     const taskData = {
@@ -75,6 +77,9 @@ const TaskItem = (props) => {
     };
 
     axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
+      .then(response => {
+        setEdit(false);
+      })
     //   .then(response => {
     //     const lists = [...tasks];
     //     lists[+arrIndex] = { name };
@@ -136,7 +141,7 @@ const TaskItem = (props) => {
   let printTasks = (tasks.length !== 0 ?
     tasks.map((task, i) =>
       <div key={task.id}>
-        {/* <Task
+        <Task
           key={task.id}
           id={task.id}
           i={i}
@@ -144,8 +149,8 @@ const TaskItem = (props) => {
           updateHandler={updateHandler}
           deleteHandler={deleteHandler}
           user_id={props.user_id}
-        /> */}
-        <Container>
+        />
+        {/* <Container>
           <Card>
             <Row>
               <Col xs="6">
@@ -176,41 +181,43 @@ const TaskItem = (props) => {
               </Col>
             </Row>
           </Card>
-        </Container>
+        </Container> */}
       </div>
     ) : (noRecord ? printNoTaskMessage() : null)
   );
 
   return (
     <Fragment>
-      <Container>
-        <div>
-          {props.isLoggedIn && props.user_id &&
-            <Button
-              color="danger"
-              onClick={() => handleLogoutClick()}
-            >
-              Logout
-            </Button>
-          }
-        </div>
-        <div>
-          <TaskForm
-            id={index}
-            existingName={existingName}
-            isEdit={edit}
-            user_id={props.user_id}
-            isLoggedIn={props.isLoggedIn}
-            tasks={tasks}
-            addNewTaskHandler={addNewTaskHandler}
-            updateTaskHandler={updateTaskHandler}
-          />
-        </div>
+      {/* {props.isLoggedIn ? ( */}
+        <Container>
+          <div>
+            {props.isLoggedIn && props.user_id &&
+              <Button
+                color="danger"
+                onClick={() => handleLogoutClick()}
+              >
+                Logout
+              </Button>
+            }
+          </div>
+          <div>
+            <TaskForm
+              id={index}
+              existingName={existingName}
+              isEdit={edit}
+              user_id={props.user_id}
+              isLoggedIn={props.isLoggedIn}
+              tasks={tasks}
+              addNewTaskHandler={addNewTaskHandler}
+              updateTaskHandler={updateTaskHandler}
+            />
+          </div>
 
-        <br />
+          <br />
 
-        {printTasks}
-      </Container>
+          {printTasks}
+        </Container>
+       {/* ) : <Unauthorized />} */}
     </Fragment>
   );
 };

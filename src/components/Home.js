@@ -14,7 +14,7 @@ export default class Home extends Component {
   }
 
   handleSuccessfulAuth(data) {
-    this.props.handleLogin(data);
+    this.props.handleLogin(data); // [App.js 58]
     this.props.history.push("/dashboard");
   }
 
@@ -22,7 +22,7 @@ export default class Home extends Component {
     axios
       .delete("http://localhost:3001/logout", { withCredentials: true })
       .then(response => {
-        this.props.handleLogout();
+        this.props.handleLogout(); // [App.js 67]
       })
       .catch(error => {
         console.log("Logout Error", error);

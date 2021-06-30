@@ -1,10 +1,10 @@
 import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
+import { Button, Container, Alert } from "reactstrap";
 
 import TaskForm from "./TaskForm";
-import Unauthorized from "../Unauthorized";
 import Task from './Task';
-import { Button, Container, Alert, Card, Row, Col, CardText } from "reactstrap";
+import Unauthorized from "../Unauthorized";
 
 const TaskItem = (props) => {
   const [tasks, setTasks] = useState([]);
@@ -14,22 +14,20 @@ const TaskItem = (props) => {
   const [edit, setEdit] = useState(false);
   const [index, setIndex] = useState(0);
   const [existingName, setExistingName] = useState('');
-  // const [arrIndex, setArrIndex] = useState(0);
 
 
   // For error handling
   const [noRecord, setNoRecord] = useState(true);
-  
   const printNoTaskMessage = () => {
     return (<Alert color="danger">No Tasks Found!</Alert>);
   };
 
-  
+
   // Fetching Tasks from Backend
   useEffect(() => {
-    axios.get(`http://localhost:3001/users/${props.user_id}/tasks`)
+    axios
+      .get(`http://localhost:3001/users/${props.user_id}/tasks`)
       .then(res => {
-        // If no tasks found
         if (res.data.status === 404 && props.isLoggedIn) {
           setNoRecord(true);
           printNoTaskMessage();
@@ -47,14 +45,16 @@ const TaskItem = (props) => {
           setTasks(transformedData);
         }
       })
-  }, [edit]);
+  }, [edit, noRecord]);
+
 
   const addNewTaskHandler = (name) => {
     const taskData = {
       name: name
     };
 
-    axios.post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
+    axios
+      .post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
       .then(response => {
         const lists = [...tasks, response.data];
         setTasks(lists);
@@ -64,39 +64,32 @@ const TaskItem = (props) => {
       })
   };
 
-  const updateHandler = (id, name, user_id, i) => {
+
+  const updateHandler = (id, name) => {
     setEdit(true);
     setIndex(+id);
-    setExistingName(name);
-    // setArrIndex(i);
+    setExistingName(name); 
+    // Here, when existingName will change, then it will be passed to TaskForm. There, useEffect will re-render and
+    // Update Task button will come and input form will automatically contain the name of the task whose update button was clicked.
+    // In TaskForm, when Update Task button is clicked, it will call a handler, which in turn will call the following method.
   }
 
-  const updateTaskHandler = (name, i) => {
+  const updateTaskHandler = (name) => {
     const updatedTaskData = {
       name: name
     };
 
-    axios.put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
-      .then(response => {
+    axios
+      .put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
+      .then(() => {
         setEdit(false);
       })
-    //   .then(response => {
-    //     const lists = [...tasks];
-    //     lists[+arrIndex] = { name };
-    //     setTasks(lists);
-    //     // console.log(lists);
-    //     // lists.filter()
-    //   })
-    //   .catch((error) => {
-    //     console.log("Updating Error: ", error)
-    //   });
-    // setEdit(false);
-    // setArrIndex(0);
   }
 
 
   const deleteHandler = (id, i) => {
-    axios.delete(`http://localhost:3001/users/${props.user_id}/tasks/${id}`)
+    axios
+      .delete(`http://localhost:3001/users/${props.user_id}/tasks/${id}`)
       .then(() => {
         setTasks((prev) => {
           if (prev.length !== 0) {
@@ -124,7 +117,7 @@ const TaskItem = (props) => {
   const handleLogoutClick = () => {
     axios
       .delete("http://localhost:3001/logout", { withCredentials: true })
-      .then(response => {
+      .then(() => {
         props.handleLogout();
         props.history.push("/");
       })
@@ -133,10 +126,6 @@ const TaskItem = (props) => {
       });
   };
 
-  // const styles = {
-  //   padding: "7px",
-  //   margin: "7px 0"
-  // };
 
   let printTasks = (tasks.length !== 0 ?
     tasks.map((task, i) =>
@@ -150,74 +139,46 @@ const TaskItem = (props) => {
           deleteHandler={deleteHandler}
           user_id={props.user_id}
         />
-        {/* <Container>
-          <Card>
-            <Row>
-              <Col xs="6">
-                <CardText
-                  tag="h5"
-                  style={styles}
-                >
-                  {task.name}
-                </CardText>
-              </Col>
-              <Col>
-                <Button
-                  color="secondary"
-                  style={styles}
-                  onClick={() => updateHandler(task.id, task.name, props.user_id, i)}
-                >
-                  Update
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  color="danger"
-                  style={styles}
-                  onClick={() => deleteHandler(task.id, i)}
-                >
-                  Delete
-                </Button>
-              </Col>
-            </Row>
-          </Card>
-        </Container> */}
       </div>
     ) : (noRecord ? printNoTaskMessage() : null)
   );
 
   return (
     <Fragment>
-      {props.isLoggedIn ? (
-        <Container>
-          <div>
-            {props.isLoggedIn && props.user_id &&
-              <Button
-                color="danger"
-                onClick={() => handleLogoutClick()}
-              >
-                Logout
-              </Button>
-            }
-          </div>
-          <div>
-            <TaskForm
-              id={index}
-              existingName={existingName}
-              isEdit={edit}
-              user_id={props.user_id}
-              isLoggedIn={props.isLoggedIn}
-              tasks={tasks}
-              addNewTaskHandler={addNewTaskHandler}
-              updateTaskHandler={updateTaskHandler}
-            />
-          </div>
+      {
+        props.isLoggedIn ? (
+          <Container>
+            <div>
+              {
+                props.isLoggedIn && props.user_id &&
+                <Button
+                  color="danger"
+                  onClick={() => handleLogoutClick()}
+                >
+                  Logout
+                </Button>
+              }
+            </div>
+            
+            <div>
+              <TaskForm
+                id={index}
+                existingName={existingName}
+                isEdit={edit}
+                user_id={props.user_id}
+                isLoggedIn={props.isLoggedIn}
+                tasks={tasks}
+                addNewTaskHandler={addNewTaskHandler}
+                updateTaskHandler={updateTaskHandler}
+              />
+            </div>
 
-          <br />
+            <br />
 
-          {printTasks}
-        </Container>
-       ) : <Unauthorized />}
+            {printTasks}
+          </Container>
+        ) : <Unauthorized />
+      }
     </Fragment>
   );
 };

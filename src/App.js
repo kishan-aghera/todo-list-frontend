@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
 import "./App.css";
+
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
 import TaskItem from './components/Tasks/TaskItem'
@@ -25,7 +26,7 @@ export default class App extends Component {
   checkLoginStatus() {
     axios
       .get("http://localhost:3001/logged_in", { withCredentials: true })
-      .then(response => {
+      .then((response) => {
         if (
           response.data.logged_in &&
           this.state.loggedInStatus === "NOT_LOGGED_IN"
@@ -46,7 +47,7 @@ export default class App extends Component {
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("check login error", error);
       });
   }
@@ -76,7 +77,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBar isLoggedIn={this.state.isLoggedIn} />
+        <NavBar isLoggedIn={this.state.isLoggedIn} />     
         <br />
         <BrowserRouter>
           <Switch>

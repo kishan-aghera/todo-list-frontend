@@ -38,12 +38,12 @@ export default class Registration extends Component {
         },
         { withCredentials: true }
       )
-      .then(response => {
+      .then((response) => {
         if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data);
+          this.props.handleSuccessfulAuth(response.data); // [Home.js 16]
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Registration Error: ", error);
       });
     event.preventDefault();

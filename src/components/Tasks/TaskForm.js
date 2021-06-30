@@ -1,7 +1,5 @@
 import { useState, Fragment, useEffect } from "react";
-// import { Link } from "react-router-dom";
-// import axios from "axios";
-import { Alert, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import Unauthorized from "../Unauthorized";
 
 const TaskForm = (props) => {
@@ -13,13 +11,13 @@ const TaskForm = (props) => {
 
   const addTaskHandler = (event) => {
     event.preventDefault();
-    props.addNewTaskHandler(enteredName);
+    props.addNewTaskHandler(enteredName); // [TaskItem.js 51]
     setEnteredName('');
   }
 
   const updateHandler = (event) => {
     event.preventDefault();
-    props.updateTaskHandler(enteredName, props.id);
+    props.updateTaskHandler(enteredName); // [TaskItem.js 74]
     setEnteredName('');
   }
 
@@ -28,18 +26,6 @@ const TaskForm = (props) => {
     setEnteredName(props.existingName);
   }, [props.existingName])
 
-
-  // const printMessage = (
-  //   <Fragment>
-  //     <Alert color="danger">
-  //       Please Login and then you can use this feature.
-  //       <br />
-  //       You can get Login or Register by visiting the following link.
-  //       <br />
-  //       <Link to="/">Home</Link>
-  //     </Alert>
-  //   </Fragment>
-  // );
 
   return (
     <Fragment>
@@ -57,7 +43,9 @@ const TaskForm = (props) => {
               <Button
                 color="info"
                 type="submit">
-                {props.isEdit ? "Update Task" : "Add Task"}
+                {
+                  props.isEdit ? "Update Task" : "Add Task"
+                }
               </Button>
             </form>
           </Fragment>

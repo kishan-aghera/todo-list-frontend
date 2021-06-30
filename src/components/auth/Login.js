@@ -36,12 +36,12 @@ export default class Login extends Component {
         },
         { withCredentials: true }
       )
-      .then(response => {
+      .then((response) => {
         if (response.data.logged_in) {
-          this.props.handleSuccessfulAuth(response.data);
+          this.props.handleSuccessfulAuth(response.data); // [Home.js 16]
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("Login Error: ", error);
       });
     event.preventDefault();

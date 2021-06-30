@@ -19,20 +19,22 @@ export default function Task(props) {
               {props.name}
             </CardText>
           </Col>
+          
           <Col>
             <Button
               color="secondary"
               style={styles}
-              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)}
+              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)} // [TaskItem.js 68]
             >
               Update
             </Button>
           </Col>
+          
           <Col>
             <Button
               color="danger"
               style={styles}
-              onClick={() => props.deleteHandler(props.id, props.i)}
+              onClick={() => props.deleteHandler(props.id, props.i)} // [TaskItem.js 86]
             >
               Delete
             </Button>

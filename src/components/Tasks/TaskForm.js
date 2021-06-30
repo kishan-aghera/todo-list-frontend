@@ -48,8 +48,17 @@ const TaskForm = (props) => {
           ?
           <Fragment>
             <form onSubmit={props.isEdit ? updateHandler : addTaskHandler}>
-              <input type="text" value={enteredName} placeholder="Task Name" onChange={nameHandler} />
-              <Button color="info" type="submit">{props.isEdit ? "Update Task" : "Add Task"}</Button>
+              <input
+                type="text"
+                value={enteredName}
+                placeholder="Task Name"
+                onChange={nameHandler}
+                required />
+              <Button
+                color="info"
+                type="submit">
+                {props.isEdit ? "Update Task" : "Add Task"}
+              </Button>
             </form>
           </Fragment>
           : <Unauthorized />

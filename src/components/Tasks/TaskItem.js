@@ -1,6 +1,16 @@
-import { useState, useEffect, Fragment } from "react";
+import { 
+  useState, 
+  useEffect, 
+  Fragment 
+} from "react";
+
 import axios from "axios";
-import { Button, Container, Alert } from "reactstrap";
+
+import { 
+  Button, 
+  Container, 
+  Alert 
+} from "reactstrap";
 
 import TaskForm from "./TaskForm";
 import Task from './Task';
@@ -45,7 +55,7 @@ const TaskItem = (props) => {
           setTasks(transformedData);
         }
       })
-  }, [edit, noRecord]);
+  }, [edit, noRecord, props.user_id, props.isLoggedIn]);
 
 
   const addNewTaskHandler = (name) => {

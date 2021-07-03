@@ -1,5 +1,10 @@
-import { useState, Fragment, useEffect } from "react";
+import {
+  useState,
+  Fragment,
+  useEffect
+} from "react";
 import { Button } from "reactstrap";
+
 import Unauthorized from "../Unauthorized";
 
 const TaskForm = (props) => {
@@ -11,13 +16,13 @@ const TaskForm = (props) => {
 
   const addTaskHandler = (event) => {
     event.preventDefault();
-    props.addNewTaskHandler(enteredName); // [TaskItem.js 51]
+    props.addNewTaskHandler(enteredName); // [TaskItem.js 61]
     setEnteredName('');
   }
 
   const updateHandler = (event) => {
     event.preventDefault();
-    props.updateTaskHandler(enteredName); // [TaskItem.js 74]
+    props.updateTaskHandler(enteredName); // [TaskItem.js 87]
     setEnteredName('');
   }
 
@@ -32,23 +37,21 @@ const TaskForm = (props) => {
       {
         (props.isLoggedIn && props.user_id)
           ?
-          <Fragment>
-            <form onSubmit={props.isEdit ? updateHandler : addTaskHandler}>
-              <input
-                type="text"
-                value={enteredName}
-                placeholder="Task Name"
-                onChange={nameHandler}
-                required />
-              <Button
-                color="info"
-                type="submit">
-                {
-                  props.isEdit ? "Update Task" : "Add Task"
-                }
-              </Button>
-            </form>
-          </Fragment>
+          <form onSubmit={props.isEdit ? updateHandler : addTaskHandler}>
+            <input
+              type="text"
+              value={enteredName}
+              placeholder="Task Name"
+              onChange={nameHandler}
+              required />
+            <Button
+              color="info"
+              type="submit">
+              {
+                props.isEdit ? "Update Task" : "Add Task"
+              }
+            </Button>
+          </form>
           : <Unauthorized />
       }
     </Fragment>

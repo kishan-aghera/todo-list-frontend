@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Card, CardTitle, Row, Col, Container } from 'reactstrap';
+import { 
+  Button, 
+  Card, 
+  CardTitle, 
+  Row, 
+  Col, 
+  Container 
+} from 'reactstrap';
 
 import Registration from "./auth/Registration";
 import Login from "./auth/Login";
@@ -14,7 +21,7 @@ export default class Home extends Component {
   }
 
   handleSuccessfulAuth(data) {
-    this.props.handleLogin(data); // [App.js 58]
+    this.props.handleLogin(data); // [App.js 63]
     this.props.history.push("/dashboard");
   }
 
@@ -22,7 +29,7 @@ export default class Home extends Component {
     axios
       .delete("http://localhost:3001/logout", { withCredentials: true })
       .then(response => {
-        this.props.handleLogout(); // [App.js 67]
+        this.props.handleLogout(); // [App.js 72]
       })
       .catch(error => {
         console.log("Logout Error", error);

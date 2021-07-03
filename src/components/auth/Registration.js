@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Input } from "reactstrap";
+import { 
+  Button, 
+  Form, 
+  FormGroup, 
+  Input 
+} from "reactstrap";
 
 export default class Registration extends Component {
   constructor(props) {
@@ -40,12 +45,13 @@ export default class Registration extends Component {
       )
       .then((response) => {
         if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data); // [Home.js 16]
+          this.props.handleSuccessfulAuth(response.data); // [Home.js 23]
         }
       })
       .catch((error) => {
         console.log("Registration Error: ", error);
       });
+    
     event.preventDefault();
   }
 

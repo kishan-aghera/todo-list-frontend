@@ -1,5 +1,12 @@
 import React from 'react';
-import { Button, Container, Card, Row, Col, CardText } from 'reactstrap';
+import { 
+  Button, 
+  Container, 
+  Card, 
+  Row, 
+  Col, 
+  CardText 
+} from 'reactstrap';
 
 export default function Task(props) {
   const styles = {
@@ -24,7 +31,7 @@ export default function Task(props) {
             <Button
               color="secondary"
               style={styles}
-              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)} // [TaskItem.js 68]
+              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)} // [TaskItem.js 76]
             >
               Update
             </Button>
@@ -34,7 +41,7 @@ export default function Task(props) {
             <Button
               color="danger"
               style={styles}
-              onClick={() => props.deleteHandler(props.id, props.i)} // [TaskItem.js 86]
+              onClick={() => props.deleteHandler(props.id, props.i)} // [TaskItem.js 98]
             >
               Delete
             </Button>

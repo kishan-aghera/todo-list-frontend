@@ -1,4 +1,10 @@
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from "reactstrap";
+import { 
+  Navbar, 
+  NavbarBrand, 
+  Nav, 
+  NavItem, 
+  NavLink 
+} from "reactstrap";
 
 const NavBar = (props) => {
   return (

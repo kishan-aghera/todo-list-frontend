@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button, Form, FormGroup, Input } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input
+} from "reactstrap";
 
 export default class Login extends Component {
   constructor(props) {
@@ -38,7 +43,10 @@ export default class Login extends Component {
       )
       .then((response) => {
         if (response.data.logged_in) {
-          this.props.handleSuccessfulAuth(response.data); // [Home.js 16]
+          this.props.handleSuccessfulAuth(response.data); // [Home.js 23]
+        }
+        else {
+          alert("User does not exist. Please Register first.");
         }
       })
       .catch((error) => {

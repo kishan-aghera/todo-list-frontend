@@ -32,8 +32,8 @@ export default class Login extends Component {
 
     axios
       .post(
-        // "https://todo-list-rails-api.herokuapp.com/sessions",
-        "http://localhost:3001/sessions",
+        "https://todo-list-rails-api.herokuapp.com/sessions",
+        // "http://localhost:3001/sessions",
         {
           user: {
             email: email,

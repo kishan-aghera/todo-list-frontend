@@ -16,7 +16,7 @@ const NavBar = (props) => {
           {
             props.isLoggedIn ? (
               <NavItem>
-                <NavLink href="/dashboard">Dashboard</NavLink>
+                <NavLink href="/todo-list-frontend/dashboard">Dashboard</NavLink>
               </NavItem>
             ) : null
           }

@@ -33,7 +33,7 @@ export default class Registration extends Component {
 
     axios
       .post(
-        "http://localhost:3001/registrations",
+        "https://todo-list-rails-api.herokuapp.com/registrations",
         {
           user: {
             email: email,

@@ -36,7 +36,7 @@ const TaskItem = (props) => {
   // Fetching Tasks from Backend
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/users/${props.user_id}/tasks`)
+      .get(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks`)
       .then(res => {
         if (res.data.status === 404 && props.isLoggedIn) {
           setNoRecord(true);
@@ -64,7 +64,7 @@ const TaskItem = (props) => {
     };
 
     axios
-      .post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
+      .post(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks`, taskData)
       .then(response => {
         const lists = [...tasks, response.data];
         setTasks(lists);
@@ -90,7 +90,7 @@ const TaskItem = (props) => {
     };
 
     axios
-      .put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
+      .put(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks/${index}`, updatedTaskData)
       .then(() => {
         setEdit(false);
       })
@@ -99,7 +99,7 @@ const TaskItem = (props) => {
 
   const deleteHandler = (id, i) => {
     axios
-      .delete(`http://localhost:3001/users/${props.user_id}/tasks/${id}`)
+      .delete(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks/${id}`)
       .then(() => {
         setTasks((prev) => {
           if (prev.length !== 0) {
@@ -126,7 +126,7 @@ const TaskItem = (props) => {
 
   const handleLogoutClick = () => {
     axios
-      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .then(() => {
         props.handleLogout();
         props.history.push("/");

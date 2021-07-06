@@ -99,7 +99,7 @@ export default class App extends Component {
             />
             <Route
               exact
-              path={"/dashboard"}
+              path={"/todo-list-frontend/dashboard"}
               render={props => (
                 <TaskItem
                   {...props}

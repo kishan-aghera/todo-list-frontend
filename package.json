@@ -1,5 +1,5 @@
 {
-  "homepage": "http://kishan-aghera.github.io/todo-list-frontend",
+  "homepage": "https://kishan-aghera.github.io/todo-list-frontend",
   "name": "todo-list-frontend",
   "version": "0.1.0",
   "private": true,
@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
+    "darkmode-js": "^1.5.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^5.2.0",

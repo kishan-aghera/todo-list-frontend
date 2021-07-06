@@ -29,7 +29,7 @@ export default class App extends Component {
 
   checkLoginStatus() {
     axios
-      .get("http://localhost:3001/logged_in", { withCredentials: true })
+      .get("https://todo-list-rails-api.herokuapp.com/logged_in", { withCredentials: true })
       .then((response) => {
         if (
           response.data.logged_in &&

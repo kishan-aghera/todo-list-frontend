@@ -22,12 +22,12 @@ export default class Home extends Component {
 
   handleSuccessfulAuth(data) {
     this.props.handleLogin(data); // [App.js 63]
-    this.props.history.push("/dashboard");
+    this.props.history.push("/todo-list-frontend/dashboard");
   }
 
   handleLogoutClick() {
     axios
-      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .then(response => {
         this.props.handleLogout(); // [App.js 72]
       })

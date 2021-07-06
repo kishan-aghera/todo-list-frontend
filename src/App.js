@@ -87,7 +87,7 @@ export default class App extends Component {
           <Switch>
             <Route
               exact
-              path={"/"}
+              path={"/todo-list-frontend"}
               render={props => (
                 <Home
                   {...props}

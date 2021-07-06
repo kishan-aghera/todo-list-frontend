@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { 
-  Button, 
-  Card, 
-  CardTitle, 
-  Row, 
-  Col, 
-  Container 
+import {
+  Button,
+  Card,
+  CardTitle,
+  Row,
+  Col,
+  Container
 } from 'reactstrap';
 
 import Registration from "./auth/Registration";
@@ -27,8 +27,10 @@ export default class Home extends Component {
 
   handleLogoutClick() {
     axios
-      .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
-      .then(response => {
+      // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
+      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .then((response) => {
+        this.props.history.push("/todo-list-frontend");
         this.props.handleLogout(); // [App.js 72]
       })
       .catch(error => {

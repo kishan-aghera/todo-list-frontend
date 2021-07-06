@@ -12,7 +12,7 @@ const Unauthorized = () => {
         <br />
         You can get Login or Register by visiting the following link.
         <br />
-        <Link to="/">Home</Link>
+        <Link to="/todo-list-frontend">Home</Link>
       </Alert>
     </Container>
   )

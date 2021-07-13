@@ -5,7 +5,7 @@ import {
   Route 
 } from "react-router-dom";
 import axios from "axios";
-import Darkmode from 'darkmode-js';
+// import Darkmode from 'darkmode-js';
 
 import "./App.css";
 
@@ -30,8 +30,8 @@ export default class App extends Component {
 
   checkLoginStatus() {
     axios
-      .get("https://todo-list-rails-api.herokuapp.com/logged_in", { withCredentials: true })
-      // .get("http://localhost:3001/logged_in", { withCredentials: true })
+      // .get("https://todo-list-rails-api.herokuapp.com/logged_in", { withCredentials: true })
+      .get("http://localhost:3001/logged_in", { withCredentials: true })
       .then((response) => {
         if (
           response.data.logged_in &&
@@ -81,25 +81,25 @@ export default class App extends Component {
 
 
   render() {
-    const options = {
-      bottom: '64px', // default: '32px'
-      right: '32px', // default: '32px'
-      left: 'unset', // default: 'unset'
-      time: '0.5s', // default: '0.3s'
-      mixColor: '#fff', // default: '#fff'
-      backgroundColor: '#fff',  // default: '#fff'
-      buttonColorDark: '#100f2c',  // default: '#100f2c'
-      buttonColorLight: '#fff', // default: '#fff'
-      saveInCookies: false, // default: true,
-      label: '🌓', // default: ''
-      autoMatchOsTheme: true // default: true
-    }
+    // const options = {
+    //   bottom: '64px', // default: '32px'
+    //   right: '32px', // default: '32px'
+    //   left: 'unset', // default: 'unset'
+    //   time: '0.5s', // default: '0.3s'
+    //   mixColor: '#fff', // default: '#fff'
+    //   backgroundColor: '#fff',  // default: '#fff'
+    //   buttonColorDark: '#100f2c',  // default: '#100f2c'
+    //   buttonColorLight: '#fff', // default: '#fff'
+    //   saveInCookies: false, // default: true,
+    //   label: '🌓', // default: ''
+    //   autoMatchOsTheme: true // default: true
+    // }
 
     return (
       <div className="App">
-        {
+        {/* {
           new Darkmode(options).showWidget()
-        }
+        } */}
         <NavBar isLoggedIn={this.state.isLoggedIn} />     
         <br />
         <BrowserRouter>

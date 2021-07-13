@@ -27,8 +27,8 @@ export default class Home extends Component {
 
   handleLogoutClick() {
     axios
-      .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
-      // .delete("http://localhost:3001/logout", { withCredentials: true })
+      // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
+      .delete("http://localhost:3001/logout", { withCredentials: true })
       .then((response) => {
         this.props.history.push("/todo-list-frontend");
         this.props.handleLogout(); // [App.js 72]

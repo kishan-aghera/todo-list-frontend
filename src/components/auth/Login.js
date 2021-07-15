@@ -24,8 +24,7 @@ const Login = (props) => {
   const submitHandler = (event) => {
     axios
       .post(
-        // "https://todo-list-rails-api.herokuapp.com/sessions",
-        "http://localhost:3001/sessions",
+        "https://todo-list-rails-api.herokuapp.com/sessions",
         {
           user: {
             email: email,

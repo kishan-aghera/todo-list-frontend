@@ -27,8 +27,7 @@ const Registration = (props) => {
   const handleSubmit = (event) => {
     axios
       .post(
-        // "https://todo-list-rails-api.herokuapp.com/registrations",
-        "http://localhost:3001/registrations",
+        "https://todo-list-rails-api.herokuapp.com/registrations",
         {
           user: {
             email: email,

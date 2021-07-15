@@ -24,8 +24,7 @@ const Home = (props) => {
 
   const handleLogoutClick = () => {
     axios
-      // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
-      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .then((response) => {
         history.push("/todo-list-frontend");
         props.handleLogout(); // [App.js 72]

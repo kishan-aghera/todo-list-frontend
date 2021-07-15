@@ -35,7 +35,7 @@ const Login = (props) => {
       )
       .then((response) => {
         if (response.data.logged_in) {
-          props.handleSuccessfulAuth(response.data); // [Home.js 23]
+          props.handleSuccessfulAuth(response.data); // [Home.js 20]
         }
         else {
           alert("User does not exist. Please Register first.");

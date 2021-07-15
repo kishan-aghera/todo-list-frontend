@@ -39,7 +39,7 @@ const Registration = (props) => {
       )
       .then((response) => {
         if (response.data.status === "created") {
-          props.handleSuccessfulAuth(response.data); // [Home.js 23]
+          props.handleSuccessfulAuth(response.data); // [Home.js 20]
         }
       })
       .catch((error) => {

@@ -30,7 +30,7 @@ const Task = (props) => {
             <Button
               color="secondary"
               style={styles}
-              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)} // [TaskItem.js 76]
+              onClick={() => props.updateHandler(props.id, props.name, props.user_id, props.i)} // [TaskItem.js 81]
             >
               Update
             </Button>
@@ -40,7 +40,7 @@ const Task = (props) => {
             <Button
               color="danger"
               style={styles}
-              onClick={() => props.deleteHandler(props.id, props.i)} // [TaskItem.js 98]
+              onClick={() => props.deleteHandler(props.id, props.i)} // [TaskItem.js 103]
             >
               Delete
             </Button>

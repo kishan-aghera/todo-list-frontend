@@ -16,13 +16,13 @@ const TaskForm = (props) => {
 
   const addTaskHandler = (event) => {
     event.preventDefault();
-    props.addNewTaskHandler(enteredName); // [TaskItem.js 61]
+    props.addNewTaskHandler(enteredName); // [TaskItem.js 64]
     setEnteredName('');
   }
 
   const updateHandler = (event) => {
     event.preventDefault();
-    props.updateTaskHandler(enteredName); // [TaskItem.js 87]
+    props.updateTaskHandler(enteredName); // [TaskItem.js 90]
     setEnteredName('');
   }
 

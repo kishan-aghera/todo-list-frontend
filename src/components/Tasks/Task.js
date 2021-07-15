@@ -7,7 +7,7 @@ import {
   CardText 
 } from 'reactstrap';
 
-export default function Task(props) {
+const Task = (props) => {
   const styles = {
     padding: "7px", 
     margin: "7px 0"
@@ -50,3 +50,5 @@ export default function Task(props) {
     </Container>
   )
 }
+
+export default Task;

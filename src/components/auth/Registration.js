@@ -1,36 +1,30 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
 import axios from "axios";
-import { 
-  Button, 
-  Form, 
-  FormGroup, 
-  Input 
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input
 } from "reactstrap";
 
-export default class Registration extends Component {
-  constructor(props) {
-    super(props);
+const Registration = (props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-    this.state = {
-      email: "",
-      password: "",
-      password_confirmation: "",
-      registrationErrors: ""
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+  const emailHandler = (event) => {
+    setEmail(event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+  const passwordHandler = (event) => {
+    setPassword(event.target.value);
   }
 
-  handleSubmit(event) {
-    const { email, password, password_confirmation } = this.state;
+  const passwordConfirmationHandler = (event) => {
+    setPasswordConfirmation(event.target.value);
+  }
 
+  const handleSubmit = (event) => {
     axios
       .post(
         // "https://todo-list-rails-api.herokuapp.com/registrations",
@@ -39,63 +33,64 @@ export default class Registration extends Component {
           user: {
             email: email,
             password: password,
-            password_confirmation: password_confirmation
+            password_confirmation: passwordConfirmation
           }
         },
         { withCredentials: true }
       )
       .then((response) => {
         if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data); // [Home.js 23]
+          props.handleSuccessfulAuth(response.data); // [Home.js 23]
         }
       })
       .catch((error) => {
         console.log("Registration Error: ", error);
       });
-    
+
     event.preventDefault();
   }
 
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </FormGroup>
 
-          <FormGroup>
-            <Input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-          </FormGroup>
+  return (
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={emailHandler}
+            required
+          />
+        </FormGroup>
 
-          <FormGroup>
-            <Input
-              type="password"
-              name="password_confirmation"
-              placeholder="Password confirmation"
-              value={this.state.password_confirmation}
-              onChange={this.handleChange}
-              required
-            />
-          </FormGroup>
+        <FormGroup>
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={passwordHandler}
+            required
+          />
+        </FormGroup>
 
-          <Button color="primary" type="submit">Register</Button>
-        </Form>
-      </div>
-    );
-  }
+        <FormGroup>
+          <Input
+            type="password"
+            name="password_confirmation"
+            placeholder="Password Confirmation"
+            value={passwordConfirmation}
+            onChange={passwordConfirmationHandler}
+            required
+          />
+        </FormGroup>
+
+        <Button color="primary" type="submit">Register</Button>
+      </Form>
+    </div>
+  )
 }
+
+export default Registration;

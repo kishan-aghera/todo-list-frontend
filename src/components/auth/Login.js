@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from 'react';
+
 import axios from "axios";
 import {
   Button,
@@ -7,29 +8,20 @@ import {
   Input
 } from "reactstrap";
 
-export default class Login extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      email: "",
-      password: "",
-      loginErrors: ""
-    };
+const Login = (props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+  const emailHandler = (event) => {
+    setEmail(event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+  const passwordHandler = (event) => {
+    setPassword(event.target.value);
   }
 
-  handleSubmit(event) {
-    const { email, password } = this.state;
-
+  const submitHandler = (event) => {
     axios
       .post(
         // "https://todo-list-rails-api.herokuapp.com/sessions",
@@ -44,7 +36,7 @@ export default class Login extends Component {
       )
       .then((response) => {
         if (response.data.logged_in) {
-          this.props.handleSuccessfulAuth(response.data); // [Home.js 23]
+          props.handleSuccessfulAuth(response.data); // [Home.js 23]
         }
         else {
           alert("User does not exist. Please Register first.");
@@ -56,35 +48,35 @@ export default class Login extends Component {
     event.preventDefault();
   }
 
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={this.handleChange}
-              required
-            />
-          </FormGroup>
+  return (
+    <div>
+      <Form onSubmit={submitHandler}>
+        <FormGroup>
+          <Input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={emailHandler}
+            required
+          />
+        </FormGroup>
 
-          <FormGroup>
-            <Input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-              required
-            />
-          </FormGroup>
+        <FormGroup>
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={passwordHandler}
+            required
+          />
+        </FormGroup>
 
-          <Button type="submit">Login</Button>
-        </Form>
-      </div>
-    );
-  }
+        <Button type="submit">Login</Button>
+      </Form>
+    </div>
+  )
 }
+
+export default Login;

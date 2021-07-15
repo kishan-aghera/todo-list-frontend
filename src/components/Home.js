@@ -1,4 +1,6 @@
-import React, { Component } from "react";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+
 import axios from "axios";
 import {
   Button,
@@ -12,60 +14,56 @@ import {
 import Registration from "./auth/Registration";
 import Login from "./auth/Login";
 
-export default class Home extends Component {
-  constructor(props) {
-    super(props);
+const Home = (props) => {
+  const history = useHistory();
 
-    this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
-    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+  const handleSuccessfulAuth = (data) => {
+    props.handleLogin(data); // [App.js 63]
+    history.push("/todo-list-frontend/dashboard");
   }
 
-  handleSuccessfulAuth(data) {
-    this.props.handleLogin(data); // [App.js 63]
-    this.props.history.push("/todo-list-frontend/dashboard");
-  }
-
-  handleLogoutClick() {
+  const handleLogoutClick = () => {
     axios
       // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .delete("http://localhost:3001/logout", { withCredentials: true })
       .then((response) => {
-        this.props.history.push("/todo-list-frontend");
-        this.props.handleLogout(); // [App.js 72]
+        history.push("/todo-list-frontend");
+        props.handleLogout(); // [App.js 72]
       })
       .catch(error => {
-        console.log("Logout Error", error);
+        console.log("Logout Error: ", error);
       });
   }
 
-  render() {
-    return (
-      <div>
-        {
-          (this.props.loggedInStatus === "LOGGED_IN") ?
-            (
-              <Button color="danger" onClick={() => this.handleLogoutClick()}>Logout</Button>
-            ) :
-            (
-              <Container>
-                <Row xs="5">
-                  <Col sm="6">
-                    <Card>
-                      <CardTitle tag="h5">Registration</CardTitle>
-                      <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                    </Card>
-                  </Col>
-                  <Col sm="6">
-                    <Card>
-                      <CardTitle tag="h5">Login</CardTitle>
-                      <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-            )
-        }
-      </div>
-    );
-  }
+
+  return (
+    <div>
+      {
+        props.isLoggedIn ?
+          (
+            <Button color="danger" onClick={() => handleLogoutClick()}>Logout</Button>
+          ) :
+          (
+            <Container>
+              <Row xs="5">
+                <Col sm="6">
+                  <Card>
+                    <CardTitle tag="h5">Registration</CardTitle>
+                    <Registration handleSuccessfulAuth={handleSuccessfulAuth} />
+                  </Card>
+                </Col>
+                <Col sm="6">
+                  <Card>
+                    <CardTitle tag="h5">Login</CardTitle>
+                    <Login handleSuccessfulAuth={handleSuccessfulAuth} />
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          )
+      }
+    </div>
+  )
 }
+
+export default Home;

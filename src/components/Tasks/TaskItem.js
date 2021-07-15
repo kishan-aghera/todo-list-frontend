@@ -1,16 +1,16 @@
-import { 
-  useState, 
-  useEffect, 
+import {
+  useState,
+  useEffect,
   Fragment
 } from "react";
 import { useHistory } from "react-router";
 
 import axios from "axios";
 
-import { 
-  Button, 
-  Container, 
-  Alert 
+import {
+  Button,
+  Container,
+  Alert
 } from "reactstrap";
 
 import TaskForm from "./TaskForm";
@@ -38,27 +38,26 @@ const TaskItem = (props) => {
   // Fetching Tasks from Backend
   useEffect(() => {
     props.isLoggedIn &&
-    (axios
-      // .get(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks`)
-      .get(`http://localhost:3001/users/${props.user_id}/tasks`)
-      .then(res => {
-        if (res.data.status === 404 && props.isLoggedIn) {
-          setNoRecord(true);
-          printNoTaskMessage();
-        }
-        else {
-          setNoRecord(false);
-          const data = Array.from(res.data);
-          const transformedData = data.map((taskData) => {
-            return {
-              id: taskData.id,
-              name: taskData.name,
-              user_id: taskData.user_id
-            }
-          })
-          setTasks(transformedData);
-        }
-      }))
+      (axios
+        .get(`http://localhost:3001/users/${props.user_id}/tasks`)
+        .then(res => {
+          if (res.data.status === 404 && props.isLoggedIn) {
+            setNoRecord(true);
+            printNoTaskMessage();
+          }
+          else {
+            setNoRecord(false);
+            const data = Array.from(res.data);
+            const transformedData = data.map((taskData) => {
+              return {
+                id: taskData.id,
+                name: taskData.name,
+                user_id: taskData.user_id
+              }
+            })
+            setTasks(transformedData);
+          }
+        }))
   }, [edit, noRecord, props.user_id, props.isLoggedIn]);
 
 
@@ -68,7 +67,6 @@ const TaskItem = (props) => {
     };
 
     axios
-      // .post(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks`, taskData)
       .post(`http://localhost:3001/users/${props.user_id}/tasks`, taskData)
       .then(response => {
         const lists = [...tasks, response.data];
@@ -83,7 +81,7 @@ const TaskItem = (props) => {
   const updateHandler = (id, name) => {
     setEdit(true);
     setIndex(+id);
-    setExistingName(name); 
+    setExistingName(name);
     // Here, when existingName will change, then it will be passed to TaskForm. There, useEffect will re-render and
     // Update Task button will come and input form will automatically contain the name of the task whose update button was clicked.
     // In TaskForm, when Update Task button is clicked, it will call a handler, which in turn will call the following method.
@@ -95,7 +93,6 @@ const TaskItem = (props) => {
     };
 
     axios
-      // .put(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks/${index}`, updatedTaskData)
       .put(`http://localhost:3001/users/${props.user_id}/tasks/${index}`, updatedTaskData)
       .then(() => {
         setEdit(false);
@@ -105,7 +102,6 @@ const TaskItem = (props) => {
 
   const deleteHandler = (id, i) => {
     axios
-      // .delete(`https://todo-list-rails-api.herokuapp.com/users/${props.user_id}/tasks/${id}`)
       .delete(`http://localhost:3001/users/${props.user_id}/tasks/${id}`)
       .then(() => {
         setTasks((prev) => {
@@ -133,10 +129,9 @@ const TaskItem = (props) => {
 
   const handleLogoutClick = () => {
     axios
-      // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .delete("http://localhost:3001/logout", { withCredentials: true })
       .then(() => {
-        props.handleLogout(); // [App.js 72]
+        props.handleLogout(); // [App.js 45]
         history.push("/todo-list-frontend");
       })
       .catch(error => {
@@ -177,7 +172,7 @@ const TaskItem = (props) => {
                 </Button>
               }
             </div>
-            
+
             <div>
               <TaskForm
                 id={index}

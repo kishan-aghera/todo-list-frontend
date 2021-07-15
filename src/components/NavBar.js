@@ -10,7 +10,6 @@ const NavBar = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        {/* <NavbarBrand href="https://kishan-aghera.github.io/todo-list-frontend/">To-do List</NavbarBrand> */}
         <NavbarBrand href="/todo-list-frontend">To-do List</NavbarBrand>
         
         <Nav className="mr-auto" navbar>

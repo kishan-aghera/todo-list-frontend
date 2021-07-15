@@ -27,7 +27,6 @@ const Registration = (props) => {
   const handleSubmit = (event) => {
     axios
       .post(
-        // "https://todo-list-rails-api.herokuapp.com/registrations",
         "http://localhost:3001/registrations",
         {
           user: {
@@ -40,7 +39,7 @@ const Registration = (props) => {
       )
       .then((response) => {
         if (response.data.status === "created") {
-          props.handleSuccessfulAuth(response.data); // [Home.js 23]
+          props.handleSuccessfulAuth(response.data); // [Home.js 20]
         }
       })
       .catch((error) => {

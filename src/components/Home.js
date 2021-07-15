@@ -18,17 +18,16 @@ const Home = (props) => {
   const history = useHistory();
 
   const handleSuccessfulAuth = (data) => {
-    props.handleLogin(data); // [App.js 63]
+    props.handleLogin(data); // [App.js 40]
     history.push("/todo-list-frontend/dashboard");
   }
 
   const handleLogoutClick = () => {
     axios
-      // .delete("https://todo-list-rails-api.herokuapp.com/logout", { withCredentials: true })
       .delete("http://localhost:3001/logout", { withCredentials: true })
       .then((response) => {
         history.push("/todo-list-frontend");
-        props.handleLogout(); // [App.js 72]
+        props.handleLogout(); // [App.js 45]
       })
       .catch(error => {
         console.log("Logout Error: ", error);

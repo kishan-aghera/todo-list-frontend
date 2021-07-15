@@ -11,7 +11,7 @@ $ npm install
 ```
 
 ### Starting the server
-To start the server on localhost run the command below. The server will start on port 3000.
+Change your current branch to ```local``` as it contains URLs for running the app locally. To start the server on localhost run the command below. The server will start on port 3000.
 ```bash
 $ yarn start
 ```
